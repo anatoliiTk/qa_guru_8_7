@@ -3,9 +3,11 @@ from PyPDF2 import PdfReader
 import xlrd
 from openpyxl import load_workbook
 
+from tests.conftest import ZIP_TMP_PATH, PDF_RESOURCES_PATH, XLS_RESOURCES_PATH, XLSX_RESOURCES_PATH, TXT_RESOURCES_PATH
+
 
 def test_file_pdf():
-    with zipfile.ZipFile('tmp/archive.zip', 'r') as testzip:
+    with zipfile.ZipFile(ZIP_TMP_PATH, 'r') as testzip:
         with testzip.open('testpdf.pdf') as pdf_t:
             pdf_t = PdfReader(pdf_t)
             page = pdf_t.pages[1]
@@ -19,7 +21,7 @@ def test_file_pdf():
 
 
 def test_xls():
-    with zipfile.ZipFile('tmp/archive.zip', 'r') as testzip:
+    with zipfile.ZipFile(ZIP_TMP_PATH, 'r') as testzip:
         with testzip.open('testxls.xls') as xls_t:
             xls_content = xls_t.read()
             xls_workbook = xlrd.open_workbook(file_contents=xls_content)
@@ -30,7 +32,7 @@ def test_xls():
 
 
 def test_xlsx():
-    with zipfile.ZipFile('tmp/archive.zip', 'r') as myzip:
+    with zipfile.ZipFile(ZIP_TMP_PATH, 'r') as myzip:
         with myzip.open('testxlsx.xlsx') as xlsx_t:
             xlsx_file = load_workbook(xlsx_t)
             sheet = xlsx_file.active
@@ -38,6 +40,6 @@ def test_xlsx():
             assert value == 'Hallo World!!!'
 
 def test_txt():
-    with zipfile.ZipFile('tmp/archive.zip', 'r') as myzip:
+    with zipfile.ZipFile(ZIP_TMP_PATH, 'r') as myzip:
         with myzip.open('testtxt.txt') as txt_t:
             assert txt_t.read().decode('utf-8') == 'Hello World!\r\nHello World!!'
